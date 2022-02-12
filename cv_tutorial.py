@@ -18,3 +18,5 @@ import numpy as np
 tif_file = mpimg.imread('C:\\Users\\evanh\\Box\\Cornell\\Fall_2021\\Carp_UAV\\0036SET\\002\\IMG_0400_6.tif')
 imarray = np.array(tif_file)
 imgplot = plt.imshow(tif_file, cmap = 'jet')
+plt.colorbar
+plt.show
