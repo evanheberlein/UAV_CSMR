@@ -56,7 +56,7 @@ sSuffix='_6.tif'; % Constant suffix of image file names; 6 denotes thermal band
 sDataSuffix='.dat'; % Constant suffix of ASCII data file names
 sImagePath='C:\Users\evanh\Box\Cornell\Fall_2021\Carp_UAV\0036SET\PIV1\';
 % sImagePath=dir(fullfile(s_path, '**\*6.tif'));
-sOutputPath='C:\Users\evanh\Box\Cornell\Fall_2021\Carp_UAV\mat_results' % path to results directory - NOTE THIS DIRECTORY MUST EXIST
+sOutputPath='C:\Users\evanh\Box\Cornell\Fall_2021\Carp_UAV\mat_results\' % path to results directory - NOTE THIS DIRECTORY MUST EXIST
 
 % Region to process
 NxStart=1; % left edge of start of interrogation region
