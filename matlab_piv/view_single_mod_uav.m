@@ -11,7 +11,7 @@ iPairSep=1; %number of images across pair (2 = adjacent images)
 
 %Loop over images and display them
 therm_imgs = dir(fullfile(s_path, '**\*6.tif'));
-for i=330:510 %Must be 3 digits, from 001 to 992, range for mtg 330:510
+for i=330:478 %Must be 3 digits, from 001 to 992, range for mtg 330:510
     fname=[therm_imgs(i).folder '\' therm_imgs(i).name];
         disp(fname)
         I1=double(imread(fname)/Nconvert); %loads image into a double precision real variable matrix
