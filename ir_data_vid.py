@@ -73,7 +73,7 @@ fig = plt.figure()
 
 path = [os.path.normpath(i) for i in glob.glob(r"C:/Users/evanh/Box/Cornell/Fall_2021/Carp_UAV/0036SET/**/*6.tif",
                                                 recursive = True)] # .normpath converts all / to \\ - still readable?for root, d_names, f_names in os.walk(path): # os.walk():https://www.bogotobogo.com/python/python_traversing_directory_tree_recursively_os_walk.php
-path = path[0:991] # Set range here
+path = path[0:990] # Set range here
 for p in path:
     tif_file = mpimg.imread(p)
     img.append(np.array(tif_file))
@@ -85,8 +85,9 @@ for i in range(len(path)):
                               animated = True)])
     plt.colorbar()
     plt.show()
-    plt.close() # Not working? Figs stacking up
+    #plt.close('all') # Not working? Figs stacking up
+    print(i)
 
 ani = animation.ArtistAnimation(fig, frames, interval = 50, blit=True, repeat_delay = 1000)
-
+ani.save('full_carp.mp4')
 

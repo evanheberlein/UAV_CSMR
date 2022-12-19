@@ -215,7 +215,7 @@ Vmed=squeeze(median(V,1));
 %plot median vector field 
 % - have not removed spurrious vectors yet so use median)
 figure(5)
-quiver(IgXc,IgYc,Umed,Vmed)
+quiver(IgXc,IgYc,Umed,-Vmed)
 axis ij
 axis image
 
