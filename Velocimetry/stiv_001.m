@@ -6,23 +6,29 @@ load('find_AD1.mat')
 load('AD_process.mat')
 
 Nconvert=4; %accounts for 14-bits images being stored in top 16 bits
-
 iPairSep=1; %number of images across pair (2 = adjacent images)
 
 %Loop over images and display them
 therm_imgs = dir(fullfile(s_path, '**\*6.tif'));
 n_img = str2num(sprintf('%03d', length(therm_imgs)));
-start = 80; % 
-stop = 535; %535
+start = 80; % first image of stationary hover
+stop = 535; % last image of stationary hover 535
 img1 = [therm_imgs(1).folder '\' therm_imgs(1).name];
+% find column location over AquaDopp based on ratio size b/w IR and visible
 IR_size = size(imread(img1)); % [y x]
 ADloc_IR = [round(ADratio(1)*IR_size(2)) round(ADratio(2)*IR_size(1))];
 ADsurfL = round(Lsurf1*pix_per_mv);
+
+% Set up empty vectors for STIV
 diam = min([ADsurfL IR_size(1)]);
 col_df = zeros(diam, stop-start);
 col_x = round(IR_size(2)*ADratio(1));
 row_y = round(IR_size(1)*ADratio(2));
-% I1_min = zeros(137, 172, stop-start);
+
+% Subtract minimum image of set
+% rot_size = size(double(imrotate(imread(fname), ADang)))
+% fname1=[therm_imgs(1).folder '\' therm_imgs(1).name];
+% I1_min = zeros(rot_size(2), rot_size(1), stop-start); % 137x172 rotated dimension
 % for i=start:stop %Must be 3 digits, beginning w/ 001 
 %     fname=[therm_imgs(i).folder '\' therm_imgs(i).name];
 %     j = i-start+1;
@@ -31,25 +37,18 @@ row_y = round(IR_size(1)*ADratio(2));
 %         I1_min(:,:,j) = I1_minraw;
 % end
 % I1_min = min(I1_min, [], 3);
+
+% Create STIV figure
 j = 1;
-for i=start:stop %Must be 3 digits, beginning w/ 001 
+for i=start:stop % Loop through imagery: must be 3 digits, beginning w/ 001 
     fname=[therm_imgs(i).folder '\' therm_imgs(i).name];
 %         disp(fname)
         I1=double(imrotate(imread(fname), ADang)); %loads image into a double precision real variable matrix
-        non0inds = find(I1(:,col_x));
-        I1(find(I1==0)) = NaN;
-        I1 = I1 - mean(I1, 'all', 'omitnan'); % can -I1_min here
-        col_df(:,j) = I1(non0inds, col_x);% - mean(I1(non0inds, col_x)); % subtract mean here
+        non0inds = find(I1(:,col_x)); % imrotate uses zero padding
+        I1(find(I1==0)) = NaN; % convert zero-pad to nan so it doesn't affect mean
+        I1 = I1 - mean(I1, 'all', 'omitnan'); % can -I1_min (min image) here
+        col_df(:,j) = I1(non0inds, col_x);% can alternatively subtract column mean?
         j = j+1;
-        
-%     figure(1)
-%     set(gcf,'WindowState','fullscreen')
-%     imagesc(I1,[7190 7240]) %Set thermal resolution scale here
-%     axis image
-%     colormap(jet(256))
-%     colorbar
-%     title (num2str(fname))
-%     pause
 end
     
 figure(1)
@@ -63,6 +62,7 @@ ylabel('y-distance (m)')
 ylabel(a, 'Image-normalized pixel intensity (#)')
 set(gca, 'FontSize', 28)
 
+% Manual slope calculations
 s11 = [215 120];
 s12 = [275 75];
 s1t = s12(1) - s11(1);
@@ -95,6 +95,7 @@ s5v = s5d/s5t
 
 pause
 
+% Automated STIV from Fujita et al. 2019 - work in progress
 sq1 = 1;
 Rxy1 = ifft2(abs(fft2(col_df(:,sq1:diam))).^2);
 Rxy1 = Rxy1./Rxy1(diam/2, diam/2);
