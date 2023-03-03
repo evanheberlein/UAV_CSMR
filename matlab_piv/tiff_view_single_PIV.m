@@ -5,7 +5,7 @@
 clear all
 close all
 
-s_path='/Users/eac/classes/ CEE6370/labs/PIVLab2021/Wed06_2021/Images/';
+s_path='/Users/eac/classes/CEE6370/labs/PIVLab2021/Wed06_2021/Images/';
 prefix='wed06img_';
 suffix='.tif';
 iStart=1; %First image
