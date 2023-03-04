@@ -225,19 +225,6 @@ hold off
 legend()
 title('Flight 000')
 
-% Histogram
-figure()
-histogram(vel_f0(1,:), 151)
-title('Flight 000 histogram')
-
-% Spectra
-N_f0 = length(vel_f0);
-Raa0 = 1./N_f0.* ifft(fft(vel_f0).*conj(fft(vel_f0)));
-Saa0 = abs(fft(Raa0));
-figure()
-loglog(Saa0')
-title('Flight 000 spectra')
-
 % flight 001
 vel_f1 = zeros(6, length(binmax_f1));
 for i = 1:length(vel_f1)
@@ -275,19 +262,6 @@ end
 hold off
 legend()
 title('Flight 001')
-
-% Histogram
-figure()
-histogram(vel_f1(1,:), 151)
-title('Flight 001 histogram')
-
-% Spectra
-N_f1 = length(vel_f1);
-Raa1 = 1./N_f1.* ifft(fft(vel_f1).*conj(fft(vel_f1)));
-Saa1 = abs(fft(Raa1));
-figure()
-loglog(Saa1')
-title('Flight 001 spectra')
 
 % Running average velocity figure for AGU poster:
 postervel = abs(movmean(vel_f1(1,80-60:535),[60 0]));
@@ -330,19 +304,6 @@ hold off
 legend()
 title('Flight 004')
 
-% Histogram
-figure()
-histogram(vel_f4(1,:), 151)
-title('Flight 004 histogram')
-
-% Spectra
-N_f4 = length(vel_f0);
-Raa4 = 1./N_f4.* ifft(fft(vel_f4).*conj(fft(vel_f4)));
-Saa4 = abs(fft(Raa4));
-figure()
-loglog(Saa4')
-title('Flight 004 spectra')
-
 % Flight 005
 vel_f5 = zeros(6, length(binmax_f5));
 for i = 1:length(vel_f5)
@@ -370,19 +331,6 @@ end
 hold off
 legend()
 title('Flight 005')
-
-% Histogram
-figure()
-histogram(vel_f5(1,:), 151)
-title('Flight 005 histogram')
-
-% Spectra
-N_f5 = length(vel_f5);
-Raa5 = 1./N_f5.* ifft(fft(vel_f5).*conj(fft(vel_f5)));
-Saa5 = abs(fft(Raa5));
-figure()
-loglog(Saa5')
-title('Flight 005 spectra')
 
 % Flight 6
 vel_f6 = zeros(4, length(binmax_f6));
@@ -412,24 +360,30 @@ hold off
 legend()
 title('Flight 006')
 
-% Histogram
-figure()
-histogram(vel_f6(1,:), 151)
-title('Flight 006 histogram')
-
-% Spectra
-N_f6 = length(vel_f6);
-Raa6 = 1./N_f6.* ifft(fft(vel_f6).*conj(fft(vel_f6)));
-Saa6 = abs(fft(Raa6));
-figure()
-loglog(Saa6')
-title('Flight 006 spectra')
+% Create spectra & histogram for each flight
+flights = {[vel_f0]; [vel_f1]; [vel_f4]; [vel_f5]; [vel_f6]}
+names = ['0';'1';'4';'5';'6']
+for i = 1:length(flights)
+    vel = cell2mat(flights(i));
+    N = length(vel);
+    Raa = 1./N.* ifft(fft(vel).*conj(fft(vel)));
+    Saa6 = abs(fft(Raa));
+    % Spectra
+    figure()
+    loglog(Saa6')
+    title(sprintf('Flight %s spectra', names(i)))
+    % Histogram
+    figure()
+    histogram(vel(1,:), 151)
+    title(sprintf('Flight %s histogram - top bin', names(i)))
+end
 
 save('AD_process.mat')
 
+
 % To do:
+% VERTICAL VELOCITY COMP
 % -convert time columns in .sen file to time vector
 % -cross-ref flight times & data quality w/ correlations
 % -how to determine actual depth?
-% 60 degrees!!!
 % Calculate v & look for non-zero mean
