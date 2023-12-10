@@ -3,19 +3,19 @@
 % clear
 close all
 
-s_path='C:\Users\evanh\Box\Cornell\Fall_2021\Carp_UAV\MicaSense\0001SET\';
+s_path='C:\Users\evanh\Box\Cornell\Fall_2021\Carp_UAV\MicaSense\0000SET\';
 
 Nconvert=4; %accounts for 14-bits images being stored in top 16 bits
 
 iPairSep=1; %number of images across pair (2 = adjacent images)
 
-v = VideoWriter('C:\Users\evanh\Box\Cornell\Fall_2021\Carp_UAV\Velocimetry\carp_000.avi');
-open(v);
+% v = VideoWriter(['C:\Users\evanh\Box\Cornell\Fall_2021\Carp_UAV\UAV_CSMR_repo\Velocimetry\carp_000.avi']);
+% open(v);
 
 %Loop over images and display them
 therm_imgs = dir(fullfile(s_path, '**\*6.tif'));
 n_img = str2num(sprintf('%03d', length(therm_imgs)));
-for i=100:545 %Must be 3 digits, beginning w/ 001 
+for i=149:536 %Must be 3 digits, beginning w/ 001 154
     fname=[therm_imgs(i).folder '\' therm_imgs(i).name];
         disp(fname)
         I1=double(imread(fname)/Nconvert); %loads image into a double precision real variable matrix
@@ -38,8 +38,8 @@ for i=100:545 %Must be 3 digits, beginning w/ 001
 %     axis ij
 %     axis image
     
-    pause(0.01);
-    frame = getframe(gcf);
-    writeVideo(v,frame);
+    pause(2);
+    % frame = getframe(gcf);
+    % writeVideo(v,frame);
 end
-close(v)
+% close(v)

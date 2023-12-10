@@ -9,7 +9,7 @@ Nconvert=4; %accounts for 14-bits images being stored in top 16 bits
 
 iPairSep=1; %number of images across pair (2 = adjacent images)
 
-v = VideoWriter('C:\Users\evanh\Box\Cornell\Fall_2021\Carp_UAV\Velocimetry\carp_006.avi');
+v = VideoWriter('C:\Users\evanh\Box\Cornell\Fall_2021\Carp_UAV\UAV_CSMR\Velocimetry\carp_006.avi');
 open(v);
 
 %Loop over images and display them
